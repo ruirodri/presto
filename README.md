@@ -3,13 +3,13 @@
 # pRESTo!
 <b>pRESTo!</b> - <b>REST</b> based test automation framework
 
-There are several test automation frameworks that make easier the test automation work abstracting the repetitive work. 
+There are several test automation frameworks. Almost all of them try to make easier the test automation work abstracting repetitive work. 
 
 Generating screenshots, reading and writing data from/to databases and sending the test results and/or evidences to the test management tools are examples of this repetitive and mechanical work, that takes a lot of time and deviates the focus of the tester from the work that really makes difference, that is validating the business logic.
 
-Most of these frameworks are structured as libraries that are imported to the automation script. This approach, although common, generates a dependency on this library and a programming language (usually the same one in which this library is written) in our test automation scripts.
+Most of these frameworks are structured as libraries that are imported onto the test automation script. This approach, although common, generates a dependency on this library and on a programming language (usually the same one in which this library is written) in our test automation scripts.
 
-The inovation whe are bringing on pResto! is to structure these automation support services on a REST structure. This way, we can call it from whatever language that can deal with REST requests. Isn't it genius?
+The innovation whe are bringing on pResto! is to structure these automation support services on a REST structure. This way, we can call it from whatever language that can deal with REST requests. Isn't it genius?
 To make pRESTo! flexible and usable in most enviroments, these services will be built as plugins that are activated and set to work on configuration files. 
 
 The first categories of plugins that we are planning to put on pRESTo!'s MVP are the following:
