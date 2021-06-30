@@ -8,7 +8,7 @@ Generating screenshots, reading and writing data from/to databases and sending t
 
 Most of these frameworks are structured as libraries that are imported onto the test automation script. This approach, although common, generates a dependency on a programming language (usually the same one in which this library is written) in our test automation scripts.
 
-The innovation whe are bringing on pResto! is to structure these automation support services on a REST structure. This way, we can call it from whatever language that can deal with REST requests. Isn't it genius?
+The innovation we are bringing on pResto! is to structure these automation support services on a REST structure. This way, we can call it from whatever language that can deal with REST requests. Isn't it genius?
 To make pRESTo! flexible and usable in most enviroments, these services will be built as plugins that are activated and set to work on configuration files. 
 
 The first categories of plugins that we are planning to put on pRESTo!'s MVP are the following:
