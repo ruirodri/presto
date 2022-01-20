@@ -1,0 +1,6 @@
+testTemplates/testWWW/target/**
+testTemplates/testWWW/.settings/**
+testTemplates/testWWW/.vscode/**
+testTemplates/testWWW/.classpath
+testTemplates/testWWW/.project
+.vscode/**
