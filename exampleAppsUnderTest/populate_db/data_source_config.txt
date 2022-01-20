@@ -1,0 +1,9 @@
+[config]
+hostDB=localhost
+userDB=root
+passwordDB=root
+databaseName=TestData
+query=select id, first_number, second_number, operator, expected_result from calculations_data
+
+[confirmation]
+reload_key=Please Reload Data
