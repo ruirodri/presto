@@ -1,0 +1,1191 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Web Calculator App tests"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Calculator API tests"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroup(execution_start_date,\"1m\") as time,\n  \"tests\" as metric,\n  sum(case when platform=\"SERVICE CALCULATOR\" then 1 else 0 end) AS \"Calculator API\",\n  sum(case when platform=\"PLAYWRIGHT JAVA WEB\" then 1 else 0 end) AS \"Web Calculator App\"\nFROM test_executions\nWHERE\n  $__timeFilter(execution_start_date)\nGROUP BY time\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Tests on time",
+      "type": "timeseries"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 0,
+        "y": 4
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.2.2",
+      "pointradius": 1,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:1039",
+          "alias": "executed",
+          "color": "#1F60C4"
+        },
+        {
+          "$$hashKey": "object:385",
+          "alias": "failed",
+          "color": "#C4162A",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroup(execution_start_date,'1m') as \"time\",\n  count(id) as \"executed\",\n  sum(case when passed=0 then 1 else 0 end) as \"failed\"\nFROM test_executions\nWHERE\n  $__timeFilter(execution_start_date) and platform=\"SERVICE CALCULATOR\"\nGROUP BY time\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Tests executed on Calculator API",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "long"
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {}
+        }
+      ],
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:445",
+          "decimals": 0,
+          "format": "none",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:446",
+          "decimals": 0,
+          "format": "none",
+          "label": "",
+          "logBase": 1,
+          "max": "10",
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": 0
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 10,
+        "y": 4
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.2.2",
+      "pointradius": 1,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:93",
+          "alias": "executed",
+          "color": "#8F3BB8"
+        },
+        {
+          "$$hashKey": "object:581",
+          "alias": "failed",
+          "color": "#C4162A",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroup(execution_start_date,'1m') as \"time\",\n  count(id) as \"executed\",\n  sum(case when passed=0 then 1 else 0 end) as \"failed\"\nFROM test_executions\nWHERE\n  $__timeFilter(execution_start_date) and platform=\"PLAYWRIGHT JAVA WEB\"\nGROUP BY time\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Tests executed on Web Calculator App",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "long"
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {}
+        }
+      ],
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:445",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:446",
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": "10",
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "string"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 4
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "passed",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  \"tests\" as metric,\n  (sum(case when passed=0 then 1 else 0 end)) as \"failed\"\nFROM test_executions\nWHERE $__timeFilter(execution_start_date)",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "passed"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "title": "Failed executions (total)",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 8
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "passed",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  \"tests\" as metric,\n  (sum(case when passed=1 then 1 else 0 end)) as \"passed\"\nFROM test_executions\nWHERE $__timeFilter(execution_start_date)",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "passed"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "title": "Passed executions (total)",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 4,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 85
+              },
+              {
+                "color": "dark-green",
+                "value": 95
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 12
+      },
+      "id": 2,
+      "options": {
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "8.2.2",
+      "repeat": null,
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "passed",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  \"tests\" as metric,\n  round( ( ( sum(case when passed=1 then 1 else 0 end) / count(id) ) *100  ), 4) as \"passed\"\nFROM test_executions\nWHERE $__timeFilter(execution_start_date) and platform=\"SERVICE CALCULATOR\"",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "passed"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "title": "Passed",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 4,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 5
+              },
+              {
+                "color": "dark-red",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 12
+      },
+      "id": 7,
+      "options": {
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "passed",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  \"tests\" as metric,\n  (sum(case when passed=0 then 1 else 0 end) / count(id)*100) as \"failed\"\nFROM test_executions\nWHERE $__timeFilter(execution_start_date) and platform=\"SERVICE CALCULATOR\"",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "passed"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "title": "Failed",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-blue",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 2,
+        "x": 8,
+        "y": 12
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  count(id) as \"value\"\nFROM test_executions\nWHERE\n  $__timeFilter(execution_start_date) AND platform=\"SERVICE CALCULATOR\"\nORDER BY execution_start_date",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Executed",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 4,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 85
+              },
+              {
+                "color": "dark-green",
+                "value": 95
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 10,
+        "y": 12
+      },
+      "id": 11,
+      "options": {
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "passed",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  \"tests\" as metric,\n  (sum(case when passed=1 then 1 else 0 end) / count(id)*100) as \"passed\"\nFROM test_executions\nWHERE $__timeFilter(execution_start_date) and platform=\"PLAYWRIGHT JAVA WEB\"",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "passed"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "title": "Passed",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 4,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 5
+              },
+              {
+                "color": "dark-red",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 14,
+        "y": 12
+      },
+      "id": 12,
+      "options": {
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "passed",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  \"tests\" as metric,\n  (sum(case when passed=0 then 1 else 0 end) / count(id)*100) as \"failed\"\nFROM test_executions\nWHERE $__timeFilter(execution_start_date) and platform=\"PLAYWRIGHT JAVA WEB\"",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "passed"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "title": "Failed",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-blue",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 2,
+        "x": 18,
+        "y": 12
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  count(id) as \"value\"\nFROM test_executions\nWHERE\n  $__timeFilter(execution_start_date) AND platform=\"PLAYWRIGHT JAVA WEB\"\nORDER BY execution_start_date",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Executed",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-blue",
+            "mode": "fixed"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 12
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value"
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  execution_start_date AS \"time\",\n  count(id) as \"value\"\nFROM test_executions\nWHERE\n  $__timeFilter(execution_start_date)\nORDER BY execution_start_date",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "test_executions",
+          "timeColumn": "execution_start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Executions (total)",
+      "type": "stat"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 31,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-2d",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s"
+    ]
+  },
+  "timezone": "",
+  "title": "Calculations validation dashboard",
+  "uid": "_N6ojV0nz",
+  "version": 88
+}
