@@ -15,8 +15,9 @@
 import sys
 import subprocess
 
+# we are starting some parallell instances of the execution.
 procs = []
-for i in range(2):
+for i in range(3):
     proc = subprocess.Popen([sys.executable, "calculator_service_test.py", "{}in.csv".format(i), "{}out.csv".format(i)])
     procs.append(proc)
 
