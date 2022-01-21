@@ -11,8 +11,8 @@ To foster its integration capabilities, we designed it as a set of REST services
 
 The first plugins that we have ready to work on pRESTo! are the following:
 <ul>
-  <li>A REST data source to feed our tests with input data</li>
   <li>A REST endpoint to receive the test results and make them available </li>
+  <li>A REST data source to feed our tests with input data</li>
   <li>Templates for test scripts using pRESTo!'s services</li>
   <li>An example Grafana dashboard that generates visualizations on test executions</li>
   <li>A web application that permits view and filter the test execution results.</li>
