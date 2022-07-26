@@ -1,0 +1,247 @@
+<!--
+Copyright 2022 NTT DATA
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web Interface for the Calculator Service</title>
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: #EAEBEC;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+        }
+
+        .calc-body {
+            width: 275px;
+            margin: auto;
+            min-height: 400px;
+            border: solid 1px #3A4655;
+            box-shadow: 0 8px 50px -7px black;
+        }
+
+        .header {
+            background: #102a49;
+            color: #EAEBEC;
+            width: 100%;
+            margin: auto;
+            min-height: 80px;
+            border: solid 1px #3A4655;
+            
+            text-align: center;
+        }
+
+        .calc-screen {
+            background: #3A4655;
+            width: 100%;
+            height: 150px;
+            padding: 20px;
+        }
+
+        .calc-operation {
+            text-align: right;
+            color: #727B86;
+            font-size: 21px;
+            padding-bottom: 10px;
+            border-bottom: dotted 1px;
+        }
+
+        .calc-typed {
+            margin-top: 20px;
+            font-size: 40px;
+            text-align: right;
+            color: #fff;
+        }
+
+        .calc-button-row {
+            width: 100%;
+            background: #3C4857;
+        }
+        .calc-footer {
+            width: 100%;
+            background: #727B86;
+            color: #020202;
+            margin-right: 3px;
+            text-align: right;
+        }
+
+        .button {
+            width: 25%;
+            background: #425062;
+            color: #fff;
+            padding: 15px;
+            display: inline-block;
+            font-size: 25px;
+            text-align: center;
+            vertical-align: middle;
+            margin-right: -4px;
+            border-right: solid 2px #3C4857;
+            border-bottom: solid 2px #3C4857;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .buttonSpace {
+            width: 25%;
+            background: #425062;
+            color: #fff;
+            padding: 15px;
+            display: inline-block;
+            font-size: 25px;
+            text-align: center;
+            vertical-align: middle;
+            margin-right: -4px;
+            border-right: solid 2px #3C4857;
+            border-bottom: solid 2px #3C4857;
+        }
+
+        .button.l {
+            color: #AEB3BA;
+            background: #404D5E;
+        }
+
+        .button.c {
+            color: #D95D4E;
+            background: #404D5E;
+        }
+
+        .button:hover {
+            background: #E0B612;
+            transform: rotate(5deg);
+        }
+
+        .button.c:hover,
+        .button.l:hover {
+            background: #E0B612;
+            color: #fff;
+        }
+
+        input[type="text"], textarea {
+
+            background-color : #f7f7f1c0; 
+            color: #080808;
+          }
+
+        .blink-me {
+            color: #E0B612;
+        }
+    </style>
+
+
+</head>
+
+{% block content %}
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <div class="header">
+        <h1>Web Interface for the Calculator Service</h1>
+    </div>
+
+    <br />
+    <br />
+    <div class="container">
+        <div class="calc-body">
+            <div class="calc-screen">
+                <div class="calc-operation" id="calcOperationDiv"><input type="text" class="calc-operation"
+                        id="calcOperation" style="display: block; margin: 0 auto;" /></div>
+                <div class="calc-typed" id="resultBox">
+                    <div style="display: inline" id="result">{{ rslt }}</div><span class='blink-me'>_</span>
+                </div>
+            </div>
+            <div class="calc-button-row">
+                <div class="button c" onClick="clearScreen()">C</div>
+                <div class="buttonSpace">&nbsp;</div>
+                <div class="buttonSpace">&nbsp;</div>
+                <div class="button l" onclick="display(' / ')">/</div>
+            </div>
+            <div class="calc-button-row">
+                <div class="button" onclick="display('7')">7</div>
+                <div class="button" onclick="display('8')">8</div>
+                <div class="button" onclick="display('9')">9</div>
+                <div class="button l" onclick="display(' * ')">*</div>
+            </div>
+            <div class="calc-button-row">
+                <div class="button" onclick="display('4')">4</div>
+                <div class="button" onclick="display('5')">5</div>
+                <div class="button" onclick="display('6')">6</div>
+                <div class="button l" onclick="display(' - ')">−</div>
+            </div>
+            <div class="calc-button-row">
+                <div class="button" onclick="display('1')">1</div>
+                <div class="button" onclick="display('2')">2</div>
+                <div class="button" onclick="display('3')">3</div>
+                <div class="button l" onclick="display(' + ')">+</div>
+            </div>
+            <div class="calc-button-row">
+                <div class="button"onclick="display('.')">.</div>
+                <div class="button" onclick="display('0')">0</div>
+                <div class="button 1" onclick="calculate()">=</div>
+            </div>
+            <div class="calc-footer">{{ msg }}</div
+        </div>
+
+        {% endblock %}
+
+        <script>
+            function blinker() {
+                $('.blink-me').fadeOut(200);
+                $('.blink-me').fadeIn(200);
+            }
+            setInterval(blinker, 500);
+
+            // This function clear all the values
+            function clearScreen() {
+                document.getElementById("calcOperation").value = "";
+                document.getElementById("result").innerHTML = "0";
+            }
+
+            // This function display values
+            function display(value) {
+                document.getElementById("calcOperation").value += value;
+            }
+            // This function evaluates the expression and return result
+            function calculate() {
+                var p = document.getElementById("calcOperation").value;
+                //var q = eval(p);
+                // clearScreen();
+                //document.getElementById("result").innerHTML = "" + q;
+                document.getElementById("resultBox").innerHTML="";
+                window.location.href = "/?expression="+encodeURIComponent(document.getElementById("calcOperation").value);
+            }
+
+            var input = document.getElementById("calcOperation");
+            input.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    calculate();
+                }
+            });
+        </script>
+
+</body>
+
+
+</html>

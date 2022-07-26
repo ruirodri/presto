@@ -1,0 +1,11 @@
+testTemplates/testWWW/target/**
+testTemplates/testWWW/.settings/**
+testTemplates/testWWW/.vscode/**
+testTemplates/testWWW/.classpath
+testTemplates/testWWW/.project
+testTemplates/testWWW/evidence/**
+testTemplates/testWWW/p01/**
+testTemplates/testWWW/p02/**
+testTemplates/testWWW/p03/**
+testTemplates/testWWW/p04/**
+.vscode/**

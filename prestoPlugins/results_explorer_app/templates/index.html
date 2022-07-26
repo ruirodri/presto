@@ -1,0 +1,186 @@
+<!--
+Copyright 2022 NTT DATA
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Results Browser</title>
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .evidence {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            width: 300px;
+            margin-left: 50px;
+        }
+
+        .header {
+            background: #102a49;
+            color: #EAEBEC;
+            width: 100%;
+            margin: auto;
+            padding-left: 10px;
+            min-height: 80px;
+            border: solid 1px #3A4655;
+
+            text-align: left;
+        }
+
+        table,
+        th,
+        td {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        th {
+            border: 1px solid white;
+            font-size: small;
+            background-color: #102a49;
+            color: #ddd;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        label {
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        .labelr {
+            float: right;
+        }
+
+        .buttonfilter {
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .imgpresto {
+            float:right; 
+            margin-top:5px; 
+            margin-right:10px;
+        }
+    </style>
+</head>
+
+<body onload="document.getElementById('btnFilter').disabled = false;
+">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        function openWindow(idexec) {
+            windowObjectReference = window.open(
+                "/exec?execId=" + idexec,
+                "Execution",
+                "toolbar=no,titlebar=no,scrollbars=no,location=no,resizable=yes,width=640,height=640"
+            );
+        }
+
+        function submitForm() {
+            document.getElementById("filterForm").submit();
+        }
+    </script>
+    <div class="header">
+        <img class="imgpresto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEMAAABICAYAAACtDUiwAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kTtIw1AUhv+mSkUqInYQcQhYnSyIijiWKhbBQmkrtOpgctMXNGlIUlwcBdeCg4/FqoOLs64OroIg+ABxdHJSdJESz00KLWI8cLgf/z3/4dxzAaFRYarZNQmommWk4jExm1sVA6/wIUg5igGJmXoivZiBZ3zdUyXFXYT38q77M/qUvMkAn0gcZbphEW8Qz25aOud94hArSQrxOfGEQQMSP3JddvmNc9FhgfcMGZnUPHGIWCx2sNzBrGSoxDPEYUXVqL+QdVnhvMVZrdRYa07+wmBeW0lznXIEcSwhgSREyKihjAosROjUSDGRovuYh3/Y8SfJJZOrDEaOBVShQnL84H/we7dmYXrK7RSMAd0vtv0xBgR2gWbdtr+Pbbt5AvifgSut7a82gLlP0uttLXwE9G8DF9dtTd4DLneAoSddMiRH8lMKhQLwfkbflAMGb4HeNXdvrXucPgAZ2tXyDXBwCIwXqfe6x7t7Ovf2b01rfz80EnKO5I+JOgAAAAZiS0dEAK0ArQCtCDPxPgAAAAlwSFlzAAASdAAAEnQB3mYfeAAAAAd0SU1FB+YBDAEnMmivTeUAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAQb0lEQVR42u2beXAc1Z3Hf6+7577vezSSdd+SJdmWsYnPGBtizIITmyPAxgRILQW1YYFis8mmshWvl+AtDDjBEIzNYWPA+ADb+BCysCyh27rs0TEazYw00lya++pj/9mkNgfBliWtlPL3n5mq6fftX3+63++993s9ALd0S7d0S7d0SzcrNNsnOH/lvFDGleXE0/GKcCx8x4XEBajCqkAlUjl7fD3vZImzkFFm7C7LKiP/LmG0D7Zn+iK+J8OJcBUgUPiivpIIE4ERzggQiABRWgQetgdwBofCZCHI+fKtKp7KFUvHRjZVbRr7u4DxeefnFu+U96khGHogjsdVupQOZLgsDgBnZDxZnEtw0760b7eQEFJ6sf77E6GJLB7Bi7EIFuuC58I2Ps0fLJQUvlCTU3NWJVHF5hoGMVNGZzvO/sNkcPLXDM3EcolcgVak/VzEFf2UYqjA0rylkwhD9J816f7Dl6b+JokRjOFeTu/jsUjsKGEl/hkAdi+4J6P+Sj2XpMifDAQGdrkwF1ZClGSaFCavTqJLWvSW9PX6vFr/KiqVlf6w3l+/T5vWYssWLbu/OKv40IKBcaLlxHZX2PV8BCKFSkzZn6vJ3a+T636bqcmMTtfzVOupx0dCI3vFbLE1U5VZU5tXG5z33eRS96UdjZ7GvWE8jN9nuO/XaqX6Vxqp5qb7uU6hOxSIBTZRDLU2EotIAWDOYGDTafThVx/++IT/xOvNimamhFVyVCKQ7J4JEAAA5ZnlU4t0i/4NMYhmGMYwl93khmGc7jq9cjA9+GoWmeV8jH7syftq77vHrDN7ZjKoeCqusjJWfv9U/7/urN9JzLuc0djXiILJYHUinTiFGDTOI3gbvrv4u87ZCCoQDLCPth3tauG15D1leGpLgbng2LzJGQ09Dah3ovdxRKP/jKM4L1OcuUIhUnjfanhLWKgoFPPYvEcdfgcScUSgFquHbFM2Extjv7aubF1kOkHJJLJUQ1fDrpg/9vtIPFIBAPMHRiQZKbQh26tF7KL22zNvf65+sH6rN+y914bbctuCbQincSI7me1VJBTSL6a+wElEogKm4LnzXed/Yw1Ydz3xnSfSNxoYj8cLRFAk9KXzS8G8yRk9Iz2YO+x+ts5Sh6WoVFXLSMueZm7zzymgioykcYpgiGs1dM35xfrF+SapaYue1v9wFX/V7+J0nD6QPvArs8D8wnQCq8qt+nSNds2TAiT48ZmuM+p58WR4wh42n8VftdS1FBzgiBSwCnZtYDbcrVQq39ZINd2Pmx63/Z/DT/7v58GG7oa3I57IWZaYZZpucE3upsMDnIG9spDsWQB4dl4sbfvsfdkdgx3vNvU3bbzeNgzDoJMtJz9688KbkZZrLXnTOa9t3Fbx0oWX4m/Xvz3h8XtE8yJnFGYUDgLAAzc0TCHEnGw5mZ6CKcFUbIo/neC8IW9XqaS09Vz03HLxNfHzAPDivJt0XddQ3NsoCiQCRSpcNVWgLwhNx6M6r5rOUGfswQBjBhODP7KP2y0LEgbCUHkr1loSpINdRo1xaLo+vojvVAFTEAkQAXXDcEP+goMx5hnDEqnEP8rSMjDwDMdvxqu2oDYs5ogPyNIyQAz6/oKDMTI5wvfH/FuL2cUjpcbS/TfrZ5QbP1RiSugle/MZhsEXFAwKUQ+ewE9wDVJDIMeY479ZP5lA1qYX6VvktLyqobuhYEHBSJJJryVqARbB+u1M+GUbsmNCtvCAjWsjGIx5esHAsLqsBDDwkp/tR56IJzRTviRFMhyKw1z2XFYsGBihaAgFYgGZPqWPFBmLrs2U76ryVa8tRovPq0G9vm+0zzivKl3fpDPOM+DmuCEkCEW5LO7wTPlOBiYVxzqPWUbRqBcfxuML4smgGAp0CR3kR/LTapl6xkp2PB4vLGQJPW3qNrNZYX50QcDYoN9gCRJBolhYHJpJXxFXlBJzxB0+gQ98MV/2goCBENpIA80Tc8XvzLR3MB48vN62HoLx2akRzziMaDwKfo4fnCHnjO+IZaoyGRktAwVHwR0eG0bzHkaKSeUwiAE2zp7xO1eSWfJVsax4tzVu3d412qWc9zBcYdeW5bHl8RJjSf1Mewu5QiaWiE0O8geJXE3uffMeBkmRwMJZpMvr6p+Nfj2VnJpsM7bBlbEri3vtvWjewqjrqvuBF7xKBU/xAQ00NRswMhWZVx+2PpyIpCLbHVMO9ryF4Y16f+rgOthcFte1rmIdMxswbi+5vdEsNI/bMBs96B2cn91k34V9mSRDGksTpSSX4P5uNusOU4kpuCq9yqnWVt8572CQDIlEbNH+VwyvaMRscZNIKArMJgyD2HCh1F/KTMQnkvMORue1zhetaevKbcPboqWG0l+UWkpTswkD4egCIMBGQiNv/r8t1BiGwcZ8Y7o+V59ExBFx+Wx+PBAJ6IZ9w08AAFRqK18qziw+D7Ostom2QxbcsqdOVCc913FuWzgdbs7V5GJFGUWDswqDz/DRoZZD2xPpxI59F/axcQzPIBlSIWQLOZF0JC4hJLw6Vh3UYrWHpQLpTpgDrbWsBZvPNvVVzlfyZR3Lfh+AQDxkC2EXr1xsTlGpDgBIKiXKRoVY0W5Smq77DYG/Ok4fuXxkNQ74i964V60X6H3tsXaJmBKrcRy3kgzpMvPMwGFxXnOH3Htb+C1la6m1o8X64qqCzAIPzJEONx7+5RHBkZ9VBirDRfyi1+0Ru2GMGHugRdcCJEbCvfZ7QcFWuHDAXyMR2by9dnsdQoi5bhiXei+t9kf8v+iOdS/J5GQOS1lSRSQVGcqQZ7yQJJNXEulEdF3luiQAQJ+tD28ebj4ZRMHaZbplG5YULLkMc6j6nnpjnbduKAMy7I9855Hc9xvf51hklnyGZrZ84flCU8GteJSkSOwE5wQhTUiTRtLoXaZe9hshR7ivfFF55BthWJ3Wmu6x7o2tidZNCZSorEE1x41y41M6oc5HAknmm/P/IiEOO4Y5/WP9Ex2xjsSO4h1lGpVmYi5h1HXV8Z1Bp99JOjlLlEs2ri5dfeoPv42Oj6JIIiIIxAN6b9j7gxgVy+skO+/MIDNEJCI91ZrqRxjEnKstqP2T6yLebXiX3zLccqwRb9RW0VUDJbqS7VV5VYe/LZhwMoziZJxNItI31yAAANQKdcoddn+Vwc5Yo+Ar/iT3mXVmBgAiAGAFgF8eaz2GbiNuY+M43nkudi7f6XOeLENlhxyTjodMatMf30zGEKAPrLRVu5G18ZX1ReuXXA8IAIAUlaKTVNJjYkyczmudormGUWQsInM0OXsRgyBJJVV/69jNVZuZu2ruShZri4vXcNc8akwbg5OpyW22cdvpHluP5o8wxtPjG1fLVv+Xiqt6xqAyXPdkqTqvOjVGjr3fzGs2BJPB/XMNo6G/Abd77VuPio5CMpW87XramA1malP1prdXmld+T8vSTu1P7F/jC/sK/wgjhVIEn8sP1JTW0DcaUJm07J015Bqmw9thnmsYLIZVMpgYvOeO4B0RLou750balmeXN1SaKu9cGl3qdwQcR061nJIAAGA00JCm0+emE1C+Pt8q4Un+w8FylJ3tOHtx2DWsmAsQnzR/wuqZ6Dlm59pxtVB9vDq/uuNGPfIseZfylfnPMAyjwAm8FgAAyyKymjUiTe90gjJrzbSQL/zvGqLmnV5/7wq7x376VMupWQEyMjaCDToG+U29TaXRZHRYxBbpt/C27GUT7Ien6xlIBMJuxg1ithgHACCstLXabXU/+MbFN954bOVjN7zsvq3gNp990v5i92h3utXf+gQf+Gc7Bjp2SgSSi1n6LPfNQvh64GuFO+iWOP3OZyZCE9+zJ+xsEkjRcsXyH0kEkveKLcXT/p9KmAyLhnhDsDi9uBoAThICSkC5WK7X75Hf4weAI9MxzVBnTLo8rp/zXDxut7/77kujlw6ruKr4qbZTbwhZwhdMKhMRSoYsUoE0YVaZB9wBtzxNpSGWihkAAQgJ4ZSYL/aJBKIYAMB7je9lEoioIYC4u93RvnKEGNE3S5phc2JzXIqkny1SLtq1vGh5y81AHnINmbqcXc+vSK2AgejAFwAAqKG7Yccl76V/MeGmdpVI9fT6ivXjNzUzvFJfGE6E93RGO1dLaAlwgdsu5ApZFE2V4AiPT6QnGoUgNHNxLiAM5ZA0CTjgngSVGAUGAiaxiamP1tc4BA5JXjgP/Gw/LEouGiIR2Z4tyt65qWpT+3RjYxgG9dn7VvSP9d9NMdSjfA7/3w1iQ5daqm4wqo1pBADwQcMHm6yk9TiN0eOVvMpdm2s2v3IzQO6//3609amtZUKO8O6v/V8XWliW9VwWV+KIOQAHnNFwNClH0sGR4/JxmqFFfBbfTyDChGFYHCOwz75MfIlqsVoQsoV77DF7uEZf46jMrvRON57uwW7jqG/0AVvEtpVGdEUABcIW3HKmUFP4s+q86qt/sTY53nT85QPcA09nB7OpMqxs54rcFS8bNcYZKdL02ft0OIazrRNWEHFETIYig+5x9uBasTbGYXFYUoE0SVKkgKIpKseU47qZc415xtA11zVMJpbd1jvWuwoAHvElffxR1qiyAqtoEbAEbTjCP76r5q5z37hQ6x7uFjgDzgeDyeCOcCJcahAZurLUWavzM/JDMM/VOdzJFbKF2LBv+JHJ0GQeYtD207zToupQNTuGxSgZI+sq15W/LBPLPsk15Mavewn/ZuObmBbXfuqL+u4qNZW+FUvF/DiG715asHR8PgEYmxjjO/1OXTAZ/Ik/6t+UJc8Su8Nu1sfwsUycFiN5Wj6xXrX+U6VYeb7J1nT0oZUPfWu1/q/WM863ndfagrZ/6uB0PGdVWvFtY9viMoHsDb1Iv3tJwRL7XF9420AbMRoYzcUAA7PcrLH77A/E0rHiNJ2u+Uj+EVhCFqhIVowXaYseCyVCCgzD4jqp7khhRuENTRX+5ibMwYsH18ap+OvNguYcRUIBOWROkMvmXpZypHu1Au1n1YXVM7434vK4+BRJZV0evsxSiVQFaSp9b3eo+/00nT7CZtggR3LAMAx8lA+UuPKSRWZhgonghxqJ5khNXs1NzWu+dUeqdahV22hvNFqEFvlEZOLdfqJfpSJVkMHK6MrX5O8emBi4kq3Odi/OW3xD3Wh0fFQWSoRWETjBtI60Ekap8WkJV9J9ZvTMSgmSmPq5/azyRDmnhdcC5qQZhCDs4AEvoeApXsvWZV+bik7RKwpXtM/kjbih7bmDFw+q1SL1EwQiHpwMT2ZGUpHAGDbGMSNzFABiRokRrgaugpwlBwFLAAKOIMEwDBlNRYUIUCfJkPk8No/rjXghRIU4DDB6IS6ENlYbCEgBCCgBuHguJjeey5jYJptaoL6A47gzFAsdrM6u9tBAkzqFLjFrVffpNLK77UJf2Mce8g6tSKQTS9QSdZM/7F8aToYfdBEutZJSslyEiwqwAkSMFQNRSgRRIgoEQ0BOLCetQ7p0ik5BHMWRHJe/60/5KQ1PE+Bz+aARaY6NBkYHinRFqQJzQWQuc9OMbtwebTrKLjIV5cXT8dvpND3gDrmLcQwHmqFBLpQDn8MHFsa65PQ6O2JUDFJ0CnIVuSmVRAVapZaBW7qlW7qlW1qY+h9KpU/IouzVgQAAAABJRU5ErkJggg=="
+            alt="img_data" id="imgslot" />
+        <h1>Explore the test results</h1>
+    </div>
+    <br />
+    <hr />
+    <form action="/" id="filterForm">
+        <div>
+            <label for="reccount">Executions on filter range:</label>
+            <span id="reccount">{{ qtRecords }}</span>
+            <div class="labelr">
+                <label for="pageNumber"> Page:&nbsp;&nbsp;</label>
+                <select id="pageNumber" name="pageNumber" onchange="submitForm()">
+                    {% for x in listPages %}
+                    <option value="{{ x }}" {% if x==pageNumber %}selected{% endif %}>{{ x }}</option>
+                    {% endfor %}
+                </select>
+                <label for="range">Showing from&nbsp;&nbsp;</label>
+                <span id="range">{{ startingRecord+1 }} <b>to</b> {{ endingRecord }}</span>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <label for="filterStartingTime">Executions started after:</label>
+            <input type="datetime-local" id="filterStartingTime" name="filterStartingTime" value="{{ startingTime}}"
+                onchange="submitForm()">
+
+            <label for="filterEndingTime">Executions started until:</label>
+            <input type="datetime-local" id="filterEndingTime" name="filterEndingTime" value="{{ endingTime }}"
+                onchange="submitForm()">
+
+            <label for="passedfailed">Choose a status:</label>
+            <select id="cars" name="passedfailed" form="filterForm" onchange="submitForm()">
+                <option value="passed" {{ spass }}>Passed</option>
+                <option value="failed" {{ sfail }}>Failed</option>
+                <option value="both" {{ sboth }}>Both</option>
+            </select>
+            <input id="btnFilter" disabled="true" class="buttonfilter" type="submit" value="Filter Executions" />
+    </form>
+    </div>
+    <hr />
+    {% block content %}
+    <div style="text-align:center;">
+        <table>
+            <tr>
+                <th>Exec ID</th>
+                <th>Test ID</th>
+                <th>Platform</th>
+                <th>Execution Date</th>
+                <th>Execution Time (s)</th>
+                <th>Passed/Failed</th>
+                <th>Comments</th>
+            </tr>
+            {% for linha in linhas %}
+            <tr>
+                <td><a href="#" onclick="openWindow('{{ linha[0] }}')">{{ linha[0] }}</a></td>
+                <td>{{ linha[1] }}</td>
+                <td>{{ linha[3] }}</td>
+                <td>{{ linha[4] }}</td>
+                <td>{{ linha[5] }}</td>
+                <td>
+                    {% if linha[6] == 1 %}
+                    Passed
+                    {% else %}
+                    Failed
+                    {% endif %}
+                </td>
+                <td>{{ linha[8] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endblock %}
+</body>
+
+</html>

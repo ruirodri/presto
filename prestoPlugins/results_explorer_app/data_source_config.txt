@@ -1,0 +1,7 @@
+[config]
+hostDB=localhost
+userDB=root
+passwordDB=root
+databaseName=TestData
+
+

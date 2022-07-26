@@ -1,0 +1,174 @@
+<!--
+Copyright 2022 NTT DATA
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Results Browser</title>
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header {
+            background: #102a49;
+            color: #EAEBEC;
+            width: 100%;
+            margin: auto;
+            min-height: 80px;
+            border: solid 1px #3A4655;
+
+            text-align: center;
+        }
+
+        .divclosebutton {
+            width: 100%;
+            text-align: right;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+        span {
+            font-size: small;
+            margin-left: 5px;
+        }
+        .label {
+            font-weight: bold;
+        }
+        table,
+        th,
+        td {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        th {
+            border: 1px solid white;
+            font-size: small;
+            background-color: #102a49;
+            color: #ddd;
+        }
+
+        td {
+            font-size: smaller;
+        }
+        table {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .headerevidence {
+                display: table;
+                margin: 0 auto;
+                font-weight: bold;
+        }
+        .evidence {
+            display:table;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            padding: 5px;
+            width: 500px;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+
+
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <div class="header">
+        <h1>Showing test execution {{ linha[0] }}</h1>
+    </div>
+    <div class="divclosebutton">
+        <input type="button" value="Close" onclick="window.opener = self;window.close();" />
+    </div>
+    {% block content %}
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <div>
+                        <span class="label">Test Case ID:</span><span>{{ linha[1] }}</span>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <span class="label">Test Suite ID:</span><span>{{ linha[2] }}</span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        <span class="label">Platform:</span><span>{{ linha[3] }}</span>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <span class="label">Execution Date:</span><span>{{ linha[4] }}</span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        <span class="label">Execution time (s):</span><span>{{ linha[5] }}</span>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <span class="label">Passed:</span>
+                        <span>
+                            {% if linha[6] == 1 %}
+                            Passed
+                            {% else %}
+                            Failed
+                            {% endif %}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div>
+                        <span class="label">Comments:</span><span>{{ linha[8] }}</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <div clas="boxevidence">
+            <span width="95%" class="headerevidence">Execution evidence:</span>
+            <br />
+            {% if mimeType == "text/plain" %}
+            <span class="evidence" id="evidence">{{ evid }}</span>
+            {% else %}
+            <img class="evidence" id="evidence" src="data:image/png;base64,{{ evid }}" alt="img_data" id="imgslot" />
+            {% endif %}
+        </div>
+        <br /><br />
+    </div>
+    {% endblock %}
+</body>
+
+
+</html>

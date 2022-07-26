@@ -1,0 +1,1 @@
+curl -X POST http://localhost:5000/datasource -H "Content-Type: application/json" -d "{\"reloadKey\":\"Please Reload Data\"}" 
