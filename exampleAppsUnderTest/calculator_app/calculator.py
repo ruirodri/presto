@@ -32,7 +32,7 @@ def is_number(s):
 @app.route('/')
 def hello():
     parser = reqparse.RequestParser()  # initialize parser
-    parser.add_argument("expression", required=False)  # add args
+    parser.add_argument("expression", location='args', required=False)  # add args
     args = parser.parse_args()  # parse arguments to dictionary
 
     the_expression = args["expression"]

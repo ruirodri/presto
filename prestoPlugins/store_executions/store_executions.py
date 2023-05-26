@@ -86,17 +86,17 @@ class Store_executions(Resource):
         cursor = db.cursor()
 
         parser = reqparse.RequestParser()  # initialize parser
-        parser.add_argument("test_id", required=True)  # add args
-        parser.add_argument("test_suite_id", required=False)
-        parser.add_argument("platform", required=False)
-        parser.add_argument("execution_start_date", required=True)
-        parser.add_argument("execution_duration_seconds", required=True)
-        parser.add_argument("passed", required=True)
-        parser.add_argument("blocked", required=True)
-        parser.add_argument("comments", required=False)
-        parser.add_argument("evidence", required=False)
-        parser.add_argument("evidence_file_name", required=False)
-        parser.add_argument("evidence_mime_type", required=False)
+        parser.add_argument("test_id", location='args', required=True)  # add args
+        parser.add_argument("test_suite_id", location='args', required=False)
+        parser.add_argument("platform", location='args', required=False)
+        parser.add_argument("execution_start_date", location='args', required=True)
+        parser.add_argument("execution_duration_seconds", location='args', required=True)
+        parser.add_argument("passed", location='args', required=True)
+        parser.add_argument("blocked", location='args', required=True)
+        parser.add_argument("comments", location='args', required=False)
+        parser.add_argument("evidence", location='args', required=False)
+        parser.add_argument("evidence_file_name", location='args', required=False)
+        parser.add_argument("evidence_mime_type", location='args', required=False)
         args = parser.parse_args()  # parse arguments to dictionary
 
         mime_type = args["evidence_mime_type"]

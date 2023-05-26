@@ -55,11 +55,11 @@ def hello():
     cursor = db.cursor()
 
     parser = reqparse.RequestParser()  # initialize parser
-    parser.add_argument("filterStartingTime", required=False)  # add args
-    parser.add_argument("filterEndingTime", required=False)
-    parser.add_argument("passedfailed", required=False)
-    parser.add_argument("browser", required=False)
-    parser.add_argument("pageNumber", required=False)
+    parser.add_argument("filterStartingTime", location='args', required=False)  # add args
+    parser.add_argument("filterEndingTime", location='args', required=False)
+    parser.add_argument("passedfailed", location='args', required=False)
+    parser.add_argument("browser", location='args', required=False)
+    parser.add_argument("pageNumber", location='args', required=False)
     args = parser.parse_args()  # parse arguments to dictionary
 
     starting_time = args["filterStartingTime"]
@@ -166,7 +166,7 @@ def one():
     """
 
     parser = reqparse.RequestParser()  # initialize parser
-    parser.add_argument("execId", required=True)  # add args
+    parser.add_argument("execId", location='args', required=True)  # add args
     args = parser.parse_args()  # parse arguments to dictionary
     query2 = query_one + " WHERE id={}".format(args["execId"])
     cursor.execute(query2)
